@@ -63,9 +63,9 @@ public class Record {
 
     private String zppath3;
 
-    private Boolean srctype;
+    private Integer srctype;
 
-    private Boolean status;
+    private Integer status;
 
     private String msg;
 
@@ -74,6 +74,14 @@ public class Record {
     private Long updatetime;
 
     private Long uploadtime;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
@@ -323,21 +331,14 @@ public class Record {
         this.zppath3 = zppath3 == null ? null : zppath3.trim();
     }
 
-    public Boolean getSrctype() {
+    public Integer getSrctype() {
         return srctype;
     }
 
-    public void setSrctype(Boolean srctype) {
+    public void setSrctype(Integer srctype) {
         this.srctype = srctype;
     }
 
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
 
     public String getMsg() {
         return msg;
@@ -369,5 +370,48 @@ public class Record {
 
     public void setUploadtime(Long uploadtime) {
         this.uploadtime = uploadtime;
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "id=" + id +
+                ", recordid=" + recordid +
+                ", srcsbbh='" + srcsbbh + '\'' +
+                ", sbbh='" + sbbh + '\'' +
+                ", wfsbbh='" + wfsbbh + '\'' +
+                ", zqmj='" + zqmj + '\'' +
+                ", srcclfl='" + srcclfl + '\'' +
+                ", clfl='" + clfl + '\'' +
+                ", wfclfl='" + wfclfl + '\'' +
+                ", hphm='" + hphm + '\'' +
+                ", srchpzl='" + srchpzl + '\'' +
+                ", hpzl='" + hpzl + '\'' +
+                ", wfhpzl='" + wfhpzl + '\'' +
+                ", xzqh='" + xzqh + '\'' +
+                ", wfdd='" + wfdd + '\'' +
+                ", lddm='" + lddm + '\'' +
+                ", ddms='" + ddms + '\'' +
+                ", wfdz='" + wfdz + '\'' +
+                ", wfsj=" + wfsj +
+                ", srcwfxw='" + srcwfxw + '\'' +
+                ", wfxw='" + wfxw + '\'' +
+                ", wfwfxw='" + wfwfxw + '\'' +
+                ", scz=" + scz +
+                ", bzz=" + bzz +
+                ", zpwjm='" + zpwjm + '\'' +
+                ", zpstr1='" + zpstr1 + '\'' +
+                ", zppath1='" + zppath1 + '\'' +
+                ", zpstr2='" + zpstr2 + '\'' +
+                ", zppath2='" + zppath2 + '\'' +
+                ", zpstr3='" + zpstr3 + '\'' +
+                ", zppath3='" + zppath3 + '\'' +
+                ", srctype=" + srctype +
+                ", status=" + status +
+                ", msg='" + msg + '\'' +
+                ", createtime=" + createtime +
+                ", updatetime=" + updatetime +
+                ", uploadtime=" + uploadtime +
+                '}';
     }
 }
