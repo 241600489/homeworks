@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * @date 2018/8/4 0004 10:42
  * @desc
  */
-public class ReuqestUtil {
+public class RequestUtil {
     private static final Logger log = Logger.getGlobal();
 
     public static String doPostJson(String url, String json) {
@@ -54,14 +54,15 @@ public class ReuqestUtil {
 
     public static Map<String, Object> createParameter(Integer rows) {
         HashMap<String, Object> map = new HashMap<>();
-//        map.put("belt", "1,3");
-        map.put("call", 2);
+        map.put("belt", "1,3");
+//        map.put("call", 2);
         map.put("rows", rows);
         map.put("start", 0);
         map.put("sortKey", "snapshotTime");
         map.put("sortType", "desc");
-        map.put("startTime", 1533038400000L);
-        map.put("endTime", 1533088800999L);
+        map.put("startTime", "1533038400000");
+        map.put("endTime", "1533088800999");
+        map.put("timeMode", 0);
         return map;
     }
 }
