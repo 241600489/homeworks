@@ -8,7 +8,7 @@ import java.util.concurrent.Callable;
  * @desc
  */
 public interface Blocker  {
-    void callWithGuard(GuardedAction<Void> guardedAction) throws Exception;
+    <V> V callWithGuard(GuardedAction<V> guardedAction) throws Exception;
 
-    void signAfter(Callable<Boolean> stateOperation) throws Exception;
+    void signalAfter(Callable<Boolean> stateOperation) throws Exception;
 }
