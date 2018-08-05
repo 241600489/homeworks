@@ -3,7 +3,8 @@ package zym.stream.twophasedclose;
 /**
  * @Author unyielding
  * @date 2018/8/5 0005 14:00
- * @desc
+ * @desc 判断状态
  */
-public class Predicate {
+public interface Predicate {
+    boolean envaluate();
 }

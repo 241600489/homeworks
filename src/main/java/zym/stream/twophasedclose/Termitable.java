@@ -6,4 +6,5 @@ package zym.stream.twophasedclose;
  * @desc
  */
 public interface Termitable {
+    public void terminate();
 }
