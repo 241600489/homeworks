@@ -44,4 +44,11 @@ public class BasicOperation {
         setEnabled(false);
 
     }
+
+    @Test
+    public void testOperationFly() {
+        int position = 0;
+        position *= 2;
+        System.out.println(position);
+    }
 }
