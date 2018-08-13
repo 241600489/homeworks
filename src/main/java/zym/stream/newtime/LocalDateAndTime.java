@@ -39,4 +39,11 @@ public class LocalDateAndTime {
         System.out.println(l);
     }
 
+    @Test
+    public void formatDateStringTest() {
+        String timeString = Java8Time.formatDateString("yyyy-MM-dd HH:mm:ss",
+                1521072000000l);
+        System.out.println(timeString);
+
+    }
 }
