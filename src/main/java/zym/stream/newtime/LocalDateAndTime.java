@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 
 /**
@@ -27,8 +29,14 @@ public class LocalDateAndTime {
 
     @Test
     public void localDateTime() {
-        System.out.println(LocalDateTime.parse("2018-03-15 08:00:00")
-                .getLong(ChronoField.MILLI_OF_SECOND));
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        System.out.println(LocalDateTime.parse("2018-03-15 08:00:00", dateTimeFormatter)
+                .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+    }
+    @Test
+    public void utilTimeDateFormate() {
+        long l = Java8Time.parseDateTimeString("yyyy-MM-dd HH:mm:ss", "2018-03-15 08:00:00");
+        System.out.println(l);
     }
 
 }
