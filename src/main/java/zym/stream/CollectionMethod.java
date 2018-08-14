@@ -76,10 +76,6 @@ public class CollectionMethod {
             1, 2, 3, 4, 6, 4, 5, 5, 6, 4, 5, 6, 4, 6, 4, 5, 5, 6, 4, 5, 6, 1, 2, 3, 4, 6, 4, 5, 5, 6, 4, 5, 6,
             1, 2, 3, 4, 6, 4, 5, 5, 6, 4, 5, 6,
             1, 2, 3, 4, 6, 4, 5, 5, 6, 4, 5, 6};
-
-    /**
-     *
-     */
     @Test
     public void methodThree() {
         System.out.println(stream.length);
@@ -145,7 +141,6 @@ public class CollectionMethod {
     @Test
     public void SumInt() {
         IntSummaryStatistics instatics = menu.parallelStream().collect(summarizingInt(Dish::getCalories));
-
         System.out.println(instatics.getMax());
         System.out.println(instatics.getCount());
 
@@ -256,7 +251,6 @@ public class CollectionMethod {
     @Test
     public void aquireDataListTest() {
         Optional<List<Device>> list = new FileAccess().aquireDataList();
-//        list.get().stream().forEach(t -> System.out.println(t.toString()));
         DataHandler handler = new DataHandler();
         handler.handleList(list);
     }
@@ -266,5 +260,23 @@ public class CollectionMethod {
         Optional<List<Device>> list = new FileAccess().aquireDeviceName();
         DataHandler handler = new DataHandler();
         handler.handleDat(list);
+    }
+    @Test
+    public void insertRoadData() {
+        Optional<List<Device>> list = new FileAccess().aquireRoad();
+        DataHandler handler = new DataHandler();
+        handler.handleRoadData(list);
+    }
+    @Test
+    public void insertDirectionData() {
+        Optional<List<Device>> list = new FileAccess().aquireDirection();
+        DataHandler handler = new DataHandler();
+        handler.handleDirection(list);
+    }
+
+    @Test
+    public void testParallelNode() {
+        Stream.of(strea).parallel().forEachOrdered(System.out::println);
+
     }
 }
