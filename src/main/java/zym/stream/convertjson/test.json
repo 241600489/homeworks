@@ -1,0 +1,41 @@
+{
+  "message": "",
+  "code": 0,
+  "data": {
+    "Statistics": {
+      "before_campaign": [
+        {
+          "PerformanceData": {
+            "date": "2018-03-11",
+            "impressions": "0",
+            "gmv": "0.0",
+            "sales": "0"
+          }
+        }
+      ],
+      "campaign": [
+        {
+          "PerformanceData": {
+            "impressions": "150950",
+            "paid_impressions": "34788",
+            "date": "2018-03-18",
+            "gmv": "25.49",
+            "sales": "1"
+          }
+        }
+      ],
+      "after_campaign": [
+        {
+          "PerformanceData": {
+            "impressions": "114868",
+            "paid_impressions": "42559",
+            "date": "2018-03-25",
+            "gmv": "47.6",
+            "sales": "1"
+          }
+        }
+
+      ]
+    }
+  }
+}
