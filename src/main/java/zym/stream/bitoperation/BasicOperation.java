@@ -51,10 +51,4 @@ public class BasicOperation {
         position *= 2;
         System.out.println(position);
     }
-
-    @Test
-    public void testThirdLeft() {
-        int i = 288 >>> 1;
-        System.out.println("288 >>> 1 的结果是：" + i);
-    }
 }
