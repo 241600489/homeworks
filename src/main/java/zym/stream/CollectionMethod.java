@@ -2,12 +2,25 @@ package zym.stream;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.IntSummaryStatistics;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
+import java.util.function.IntPredicate;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+
 import zym.stream.bean.CaloricLevel;
 import zym.stream.bean.Dish;
 import zym.stream.bean.Type;
-import zym.stream.fileaccess.DataHandler;
-import zym.stream.fileaccess.Device;
-import zym.stream.fileaccess.FileAccess;
 import zym.stream.forkjoin.ForkJoinSumCalculator;
 import zym.stream.model.IsNumeric;
 import zym.stream.model.ValidationStrategy;
@@ -15,13 +28,13 @@ import zym.stream.optional.Car;
 import zym.stream.optional.Ensurence;
 import zym.stream.optional.Person;
 
-import java.util.*;
-import java.util.concurrent.ForkJoinPool;
-import java.util.function.IntPredicate;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.maxBy;
+import static java.util.stream.Collectors.summarizingInt;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * @Author 梁自强
@@ -197,7 +210,7 @@ public class CollectionMethod {
                 return CaloricLevel.DIET;
             } else if (dish.getCalories() <= 700) {
                 return CaloricLevel.NORMAL;
-            } else return CaloricLevel.FAT;
+            } else{ return CaloricLevel.FAT;}
         }, toSet())));
         System.out.println(setMap.toString());
     }
@@ -246,32 +259,6 @@ public class CollectionMethod {
                 .map(Ensurence::getName).orElse("Unknown");
 
         System.out.println(enSurenceName);
-    }
-
-    @Test
-    public void aquireDataListTest() {
-        Optional<List<Device>> list = new FileAccess().aquireDataList();
-        DataHandler handler = new DataHandler();
-        handler.handleList(list);
-    }
-
-    @Test
-    public void updateDeviceName() {
-        Optional<List<Device>> list = new FileAccess().aquireDeviceName();
-        DataHandler handler = new DataHandler();
-        handler.handleDat(list);
-    }
-    @Test
-    public void insertRoadData() {
-        Optional<List<Device>> list = new FileAccess().aquireRoad();
-        DataHandler handler = new DataHandler();
-        handler.handleRoadData(list);
-    }
-    @Test
-    public void insertDirectionData() {
-        Optional<List<Device>> list = new FileAccess().aquireDirection();
-        DataHandler handler = new DataHandler();
-        handler.handleDirection(list);
     }
 
     @Test
