@@ -1,4 +1,4 @@
-package zym.stream.imutable;
+package zym.concurrent.patterns.imutable;
 
 /**
  * @Author unyielding

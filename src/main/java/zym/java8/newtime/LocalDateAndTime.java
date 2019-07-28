@@ -1,4 +1,4 @@
-package zym.stream.newtime;
+package zym.java8.newtime;
 
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class LocalDateAndTime {
     @Test
     public void formatDateStringTest() {
         String timeString = Java8Time.formatDateString("yyyy-MM-dd HH:mm:ss",
-                1521072000000l);
+                1521072000000L);
         System.out.println(timeString);
 
     }

@@ -1,4 +1,4 @@
-package zym.stream.promise;
+package zym.concurrent.patterns.promise;
 
 /**
  * @Author unyielding

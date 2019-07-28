@@ -1,4 +1,4 @@
-package zym.stream.imutable;
+package zym.concurrent.patterns.imutable;
 
 import org.junit.Test;
 

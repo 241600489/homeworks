@@ -1,12 +1,10 @@
-package zym.stream.imutable;
+package zym.concurrent.patterns.imutable;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.mapping;
 
 /**
  * @Author unyielding
