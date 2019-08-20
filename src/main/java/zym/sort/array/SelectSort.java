@@ -2,7 +2,7 @@ package zym.sort.array;
 
 import java.util.Arrays;
 
-public class SelectSort {
+public class SelectSort extends BaseSort{
     public void sort(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             int min = arr[i];
@@ -17,11 +17,6 @@ public class SelectSort {
         }
     }
 
-    private void swap(int[] arr, int i, int minIndex) {
-        int temp = arr[i];
-        arr[i] = arr[minIndex];
-        arr[minIndex] = temp;
-    }
 
     public static void main(String[] args) {
         SelectSort selectSort = new SelectSort();
