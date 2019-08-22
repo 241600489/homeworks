@@ -1,5 +1,7 @@
 package zym.sort.link;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.util.Objects;
 
 public class InsertSort {
@@ -33,9 +35,15 @@ public class InsertSort {
         return cur;
     }
 
-    public static Node reverse(Node head) {
+    public static Node reverse(Node head) throws InvalidArgumentException {
+        if (head == null) {
+            throw new InvalidArgumentException(new String[]{"head is null"});
+        }
         //前驱节点
         Node pre = null;
+        if (head.getNext() == null) {
+            return head;
+        }
         //当前节点
         Node cur = head;
         //后继节点
@@ -47,10 +55,9 @@ public class InsertSort {
             cur = after;
         }
         return pre;
-
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidArgumentException {
         Node node = new Node(1);
         Node node1 = new Node(2);
         Node node2 = new Node(3);
