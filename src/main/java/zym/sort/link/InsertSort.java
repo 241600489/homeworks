@@ -28,11 +28,26 @@ public class InsertSort {
                 Node tempNextNext = l1.getNext();
                 l1.setNext(tempNext);
                 tempNext.setNext(tempNextNext);
-
             }
-
         }
         return cur;
+    }
+
+    public static Node reverse(Node head) {
+        //前驱节点
+        Node pre = null;
+        //当前节点
+        Node cur = head;
+        //后继节点
+        Node after = null;
+        while (cur != null) {
+            after = cur.getNext();
+            cur.setNext(pre);
+            pre = cur;
+            cur = after;
+        }
+        return pre;
+
     }
 
     public static void main(String[] args) {
@@ -47,5 +62,7 @@ public class InsertSort {
         Node sort = sort(node);
         System.out.println(sort);
 
+        Node reverse = reverse(sort);
+        System.out.println(reverse);
     }
 }
