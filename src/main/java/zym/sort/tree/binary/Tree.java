@@ -1,6 +1,10 @@
 package zym.sort.tree.binary;
 
+import com.sun.jmx.remote.internal.ArrayQueue;
+
+import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Queue;
 
 /**
  * 树即二叉树
@@ -61,6 +65,9 @@ public class Tree {
         }
     }
 
+    /**
+     * 后序遍历
+     */
     public void afterTraverse() {
         if (Objects.nonNull(root)) {
             doAfterTraverse(root);
@@ -78,6 +85,24 @@ public class Tree {
         }
         //遍历根节点
         System.out.println(root.getData());
+    }
+
+    public void broadCastTraverse() {
+        if (Objects.nonNull(root)) {
+            //定义一个存放节点的队列
+            LinkedList<Node> nodes = new LinkedList<>();
+            nodes.addLast(root);
+            while (!nodes.isEmpty()) {
+                Node node = nodes.removeFirst();
+                System.out.println(node.getData());
+                if (Objects.nonNull(node.getLeft())) {
+                    nodes.addLast(node.getLeft());
+                }
+                if (Objects.nonNull(node.getRight())) {
+                    nodes.addLast(node.getRight());
+                }
+            }
+        }
     }
 
 }

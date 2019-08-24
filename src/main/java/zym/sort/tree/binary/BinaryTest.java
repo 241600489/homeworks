@@ -41,4 +41,10 @@ public class BinaryTest {
         Tree binaryTree = buildTree();
         binaryTree.afterTraverse();
     }
+
+    @Test
+    public void testTreeBroadCastTraverse() {
+        Tree tree = buildTree();
+        tree.broadCastTraverse();
+    }
 }
