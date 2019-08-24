@@ -41,4 +41,43 @@ public class Tree {
             doPreviousTraverse(root.getRight());
         }
     }
+
+    public void middleTraverse() {
+        if (Objects.nonNull(root)) {
+            doMiddleTraverse(root);
+        }
+    }
+
+    private void doMiddleTraverse(Node root) {
+        //先遍历左节点
+        if (Objects.nonNull(root.getLeft())) {
+            doMiddleTraverse(root.getLeft());
+        }
+        //遍历根节点
+        System.out.println(root.getData());
+        //遍历右节点
+        if (Objects.nonNull(root.getRight())) {
+            doMiddleTraverse(root.getRight());
+        }
+    }
+
+    public void afterTraverse() {
+        if (Objects.nonNull(root)) {
+            doAfterTraverse(root);
+        }
+    }
+
+    private void doAfterTraverse(Node root) {
+        //先遍历左节点
+        if (Objects.nonNull(root.getLeft())) {
+            doAfterTraverse(root.getLeft());
+        }
+        // 遍历右节点
+        if (Objects.nonNull(root.getRight())) {
+            doAfterTraverse(root.getRight());
+        }
+        //遍历根节点
+        System.out.println(root.getData());
+    }
+
 }

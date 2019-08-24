@@ -10,6 +10,12 @@ public class BinaryTest {
 
     @Test
     public void testTreePreviousTraverse() {
+        Tree binaryTree = buildTree();
+
+        binaryTree.previousTraverse();
+    }
+
+    private Tree buildTree() {
         Node root = new Node(1);
         Tree binaryTree = new Tree(root);
         Node four = new Node(4);
@@ -20,7 +26,19 @@ public class BinaryTest {
         four.setLeft(two);
         Node five = new Node(5);
         three.setRight(five);
+        return binaryTree;
+    }
 
-        binaryTree.previousTraverse();
+    @Test
+    public void testTreeMiddleTraverse() {
+        Tree binaryTree = buildTree();
+
+        binaryTree.middleTraverse();
+    }
+
+    @Test
+    public void testTreeAfterTraverse() {
+        Tree binaryTree = buildTree();
+        binaryTree.afterTraverse();
     }
 }
