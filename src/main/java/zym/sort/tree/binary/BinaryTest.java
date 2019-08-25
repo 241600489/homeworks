@@ -53,4 +53,10 @@ public class BinaryTest {
         Tree tree = buildTree();
         tree.deepTraverse();
     }
+
+    @Test
+    public void testNonRecursiveTraverse() {
+        Tree tree = buildTree();
+        tree.nonRecursiveTraverse();
+    }
 }

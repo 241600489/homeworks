@@ -138,4 +138,34 @@ public class Tree {
         }
     }
 
+    /**
+     * Non-recursive traversal
+     *
+     * 中序遍历 非递归遍历 借用栈来实现
+     * 思路：
+     * 1.首先将根节点 入栈
+     * 2.依次将左节点入栈直到左节点为空
+     * 3.弹出栈顶打印判断是否有右节点，若有则入栈
+     */
+    public void nonRecursiveTraverse() {
+        if (Objects.nonNull(root)) {
+            Node node = root;
+            Stack<Node> nodes = new Stack<>();
+            while (Objects.nonNull(node) || !nodes.isEmpty()) {
+                if (Objects.nonNull(node)) {
+                    //将根节点入栈
+                    nodes.push(node);
+                    node = node.getLeft();
+                } else {
+                    Node someLeft = nodes.pop();
+                    System.out.println(someLeft.getData());
+                    if (Objects.nonNull(someLeft.getRight())) {
+                        node = someLeft.getRight();
+                    }
+                }
+
+            }
+        }
+    }
+
 }
