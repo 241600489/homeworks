@@ -5,6 +5,7 @@ import com.sun.jmx.remote.internal.ArrayQueue;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * 树即二叉树
@@ -46,6 +47,9 @@ public class Tree {
         }
     }
 
+    /**
+     * 中序遍历
+     */
     public void middleTraverse() {
         if (Objects.nonNull(root)) {
             doMiddleTraverse(root);
@@ -87,6 +91,9 @@ public class Tree {
         System.out.println(root.getData());
     }
 
+    /**
+     * 广度遍历
+     */
     public void broadCastTraverse() {
         if (Objects.nonNull(root)) {
             //定义一个存放节点的队列
@@ -100,6 +107,32 @@ public class Tree {
                 }
                 if (Objects.nonNull(node.getRight())) {
                     nodes.addLast(node.getRight());
+                }
+            }
+        }
+    }
+
+    /**
+     * 深度遍历 即先序遍历 若不采用递归方式则序借助栈的后进先出
+     * 先将根节点事先放到栈中然后执行下面的步骤:
+     * 1.从栈顶弹出节点
+     * 2.打印节点的値
+     * 3.判断该节点的右子节点是否为空，若不为空则将右子节点放入栈中
+     * 4.判断该节点的左子节点是否为空，若不为空则将左子节点放入栈中
+     * 重复上述步骤，直到栈为空
+     */
+    public void deepTraverse() {
+        if (Objects.nonNull(root)) {
+            Stack<Node> nodes = new Stack<>();
+            nodes.push(root);
+            while (!nodes.isEmpty()) {
+                Node node = nodes.pop();
+                System.out.println(node.getData());
+                if (Objects.nonNull(node.getRight())) {
+                    nodes.push(node.getRight());
+                }
+                if (Objects.nonNull(node.getLeft())) {
+                    nodes.push(node.getLeft());
                 }
             }
         }
