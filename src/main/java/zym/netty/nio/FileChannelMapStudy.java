@@ -52,7 +52,7 @@ public class FileChannelMapStudy {
         try (FileChannel fileChannel = FileChannel.open(Paths.get(FILE_CHANNEL_MAP_STUDY_TXT), StandardOpenOption.CREATE,StandardOpenOption.READ, StandardOpenOption.WRITE)) {
             //将a.txt 映射文件到内存映射区域，模式为可读可写
             MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, 14);
-            //放进去一个int 为6
+            //放进去一个int 为10
             mappedByteBuffer.putInt(10);
             mappedByteBuffer.put("zengyiming".getBytes());
             //强制刷盘
