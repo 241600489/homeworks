@@ -77,4 +77,21 @@ public class CircleQueue<T> {
         elements[tail] = t;
         tail = (tail + 1) % maxSize;
     }
+
+    /**
+     * 获取队列里有多少个元素
+     * @return  环形队列中的元素个数
+     */
+    public int size() {
+
+        if (isEmpty()) {
+            return 0;
+        }
+        if (tail > head) {
+           return tail - head;
+        }else {
+            return maxSize + tail  - head;
+        }
+
+    }
 }
