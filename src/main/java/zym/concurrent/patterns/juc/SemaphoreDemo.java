@@ -10,7 +10,7 @@ public class SemaphoreDemo {
 
     public static final int THREAD_SIZE = 10;
 
-    public static void runSomething() throws InterruptedException {
+    public static void  runSomething() throws InterruptedException {
         //模拟处理什么事
         Thread.sleep(1000);
         System.out.println(String.format("current threadId is %d,current time is %d",

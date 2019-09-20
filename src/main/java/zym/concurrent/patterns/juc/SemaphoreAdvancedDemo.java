@@ -17,9 +17,12 @@ public class SemaphoreAdvancedDemo {
         Semaphore semaphoreAdvance = new Semaphore(4);
         for (int i = 0; i < THREAD_SIZE; i++) {
             Thread demoThread = new Thread(() -> {
-                boolean isAcquire = true;
+                boolean isAcquire = false;
                 try {
-                    isAcquire = semaphoreAdvance.tryAcquire();
+                    //tryAcquire 如果 没有许可会立即返回false,否则会通过CAS 去修改被volatile修饰的许可总数即state
+                    while (!(isAcquire = semaphoreAdvance.tryAcquire())) {
+                        Thread.sleep(100);
+                    }
                     runSomething();
                 } catch (InterruptedException e) {
                     System.out.println(String.format("threadId:%s interrupt", Thread.currentThread().getId()));
@@ -38,5 +41,6 @@ public class SemaphoreAdvancedDemo {
                 demoThread.interrupt();
             }
         }
+
     }
 }
