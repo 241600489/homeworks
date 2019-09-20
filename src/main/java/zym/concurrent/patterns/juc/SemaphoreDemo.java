@@ -1,6 +1,5 @@
 package zym.concurrent.patterns.juc;
 
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -19,8 +18,7 @@ public class SemaphoreDemo {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        //创建一个包含5个许可证的信号量实例
-        Random random = new Random();
+        //创建一个包含4个许可证的信号量实例
         Semaphore semaphoreDemo = new Semaphore(4);
         for (int i = 0; i < THREAD_SIZE; i++) {
             //获取许可
