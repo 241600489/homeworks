@@ -3,6 +3,7 @@ package zym.sort.link;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class InsertSort {
     public static Node sort(Node node) {
@@ -57,6 +58,15 @@ public class InsertSort {
         return pre;
     }
 
+    public static void printList(Node node) {
+        StringJoiner sj = new StringJoiner(",");
+        while (Objects.nonNull(node)) {
+            sj.add(String.valueOf(node.getVal()));
+            node = node.getNext();
+        }
+        System.out.println("链表:" + sj.toString());
+    }
+
     public static void main(String[] args) throws InvalidArgumentException {
         Node node = new Node(1);
         Node node1 = new Node(2);
@@ -67,9 +77,9 @@ public class InsertSort {
         node2.setNext(node3);
 
         Node sort = sort(node);
-        System.out.println(sort);
+        printList(sort);
 
         Node reverse = reverse(sort);
-        System.out.println(reverse);
+        printList(reverse);
     }
 }
