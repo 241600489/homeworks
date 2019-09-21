@@ -29,7 +29,6 @@ public class SemaphoreAdvancedDemo {
                     Thread.currentThread().interrupt();
                 } finally {
                     if (isAcquire) {
-                        //若是tryAcquire 被中断则不会走这里
                         semaphoreAdvance.release();
                         System.out.println(String.format("current threadId:%s released a permit", Thread.currentThread().getId()));
                     }
