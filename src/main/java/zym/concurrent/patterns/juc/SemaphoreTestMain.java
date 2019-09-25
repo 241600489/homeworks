@@ -20,21 +20,20 @@ public class SemaphoreTestMain {
 
         Semaphore semaphore = new Semaphore(1);
         semaphore.acquire();
-        Thread testThread = new Thread(semaphore::acquireUninterruptibly);
+        Thread testThread = new Thread(()->{
+            semaphore.acquireUninterruptibly();
+            //测试线程是否是中断状态
+            if (Thread.currentThread().isInterrupted()) {
+                System.out.println("pass");
+            }else {
+                System.out.println("get error");
+            }
+        });
         //启动测试线程
         testThread.start();
         //中断测试线程
         testThread.interrupt();
         //释放许可
         semaphore.release();
-        //等待测试线程获取许可,acquireUninterruptibly() 方法会检测for 阻塞线程是否是中断状态，若是中断状态先把它中断状态取消掉，获取完许可,然后将该线程的状态设置回来
-        while (semaphore.availablePermits() >= 1);
-
-        //测试线程是否是中断状态
-        if (testThread.isInterrupted()) {
-            System.out.println("pass");
-        }else {
-            System.out.println("get error");
-        }
     }
 }
