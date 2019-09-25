@@ -16,8 +16,6 @@ public class SemaphoreTestMain {
          * 4.调用a.interrupt方法
          * 5.主线程释放许可
          */
-
-
         Semaphore semaphore = new Semaphore(1);
         semaphore.acquire();
         Thread testThread = new Thread(()->{
