@@ -2,6 +2,7 @@ package zym.collections;
 
 /**
  * 环形队列 使用数组实现
+ * @author lzq
  */
 public class CircleQueue<T> {
     /**
