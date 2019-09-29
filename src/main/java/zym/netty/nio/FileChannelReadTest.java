@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.stream.IntStream;
 
-
+/**
+ * @author lzq
+ */
 public class FileChannelReadTest {
     static String testFilePath = "testFileChannelReadTest.txt";
 

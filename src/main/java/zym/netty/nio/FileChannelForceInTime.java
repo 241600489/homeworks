@@ -8,6 +8,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+/**
+ * @author lzq
+ */
 public class FileChannelForceInTime {
     static String testFilePath = "testFileChannelForceInTime.txt";
     static byte[] imageBytes;

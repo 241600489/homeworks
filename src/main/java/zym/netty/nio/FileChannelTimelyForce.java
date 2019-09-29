@@ -11,6 +11,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author lzq
+ */
 public class FileChannelTimelyForce {
     static String testFilePath = "testFileChannelTimelyForce.txt";
     static byte[] imageBytes;

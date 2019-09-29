@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+/**
+ * @author lzq
+ */
 public class FileInputStreamGetChannel {
     static String filePath = "F:\\idea_two\\homeworks\\createAndWriteAndReadPath.txt";
     public static void main(String[] args) {

@@ -7,6 +7,9 @@ import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+/**
+ * @author lzq
+ */
 public class FileChannelOpenStudy {
     public static final String JAVA_NIO = "java NIO";
     static String createAndWriteAndReadPath = "createAndWriteAndReadPath.txt";
