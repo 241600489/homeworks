@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Objects;
 
 /**
@@ -26,7 +27,7 @@ public class Bootstrap {
     public void bind(String ip, int port) throws IOException {
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.configureBlocking(false);
-        serverSocketChannel.bind(new InetSocketAddress(ip, port), DEFAULT_SO_BACKLOG);
+        serverSocketChannel.bind(new InetSocketAddress(ip, port),DEFAULT_SO_BACKLOG);
 
         MonkeyChannel monkeyServerChannel = new MonkeyChannel(serverSocketChannel);
         monkeyServerChannel.setMonkeyChannelHandler(new Acceptor(workerGroup));
@@ -44,9 +45,9 @@ public class Bootstrap {
         }
 
         @Override
-        public void processRead(Object msg) {
+        public void processRead(Object msg) throws IOException {
             System.out.println("have something received");
-            childGroup.register((MonkeyChannel) msg, SelectionKey.OP_READ);
+            childGroup.register(new MonkeyChannel((SocketChannel)msg), SelectionKey.OP_READ);
         }
     }
 }

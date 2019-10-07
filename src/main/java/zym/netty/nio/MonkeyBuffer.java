@@ -47,8 +47,9 @@ public class MonkeyBuffer {
     }
 
     public void flush() {
-        for (ByteBuffer tempBuffer : logicalCaches) {
-            monkeyChannel.write(tempBuffer);
+        for (int i = 0; i < next; i++) {
+            logicalCaches[i].flip();
+            monkeyChannel.write(logicalCaches[i]);
         }
         flushed = true;
     }

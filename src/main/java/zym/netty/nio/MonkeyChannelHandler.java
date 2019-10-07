@@ -1,5 +1,7 @@
 package zym.netty.nio;
 
+import java.io.IOException;
+
 /**
  * channnel 处理器
  *
@@ -8,5 +10,5 @@ package zym.netty.nio;
  */
 public interface MonkeyChannelHandler<T> {
 
-    void processRead(T msg);
+    void processRead(T msg) throws IOException;
 }

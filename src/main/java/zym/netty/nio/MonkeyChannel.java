@@ -3,6 +3,7 @@ package zym.netty.nio;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
+import java.util.Objects;
 
 /**
  * 对{@link java.nio.channels.SelectableChannel} 进行封装并增加新的功能
@@ -26,6 +27,8 @@ public class MonkeyChannel {
 
     private MonkeyChannelHandler monkeyChannelHandler;
 
+
+    private WorkerLoop workerLoop;
 
     public MonkeyChannelHandler getMonkeyChannelHandler() {
         return monkeyChannelHandler;
@@ -52,30 +55,40 @@ public class MonkeyChannel {
         }
     }
 
-    public void doRegister(Selector selector,int intrestOps) throws ClosedChannelException {
-        sky = sch.register(selector, intrestOps, this);
+    public void doRegister(WorkerLoop workerLoop, int intrestOps) throws ClosedChannelException {
+        sky = sch.register(workerLoop.selector(), intrestOps, this);
+        this.workerLoop = workerLoop;
     }
 
     public void doRead() {
+        SocketChannel readChannel = null;
         try {
             //读取请求头 可以考虑实现一个 Protocol 接口 来读自定义协议
-            SocketChannel readChannel = (SocketChannel) sky.channel();
+            readChannel = (SocketChannel) sky.channel();
             ByteBuffer headBuffer = ByteBuffer.allocate(4);
-            while (readChannel.read(headBuffer) != 0) { }
+            while (readChannel.read(headBuffer) != 0) {
+            }
             headBuffer.flip();
             int valueLength = headBuffer.getInt();
             ByteBuffer valueContainer = ByteBuffer.allocateDirect(valueLength);
-            while (readChannel.read(valueContainer) != 0) {}
+            while (readChannel.read(valueContainer) != 0) {
+            }
             monkeyBuffer.writeMsg(headBuffer);
             monkeyBuffer.writeMsg(valueContainer);
-
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            workerLoop.register(this, SelectionKey.OP_WRITE);
         }
     }
 
     public void doWrite() {
         monkeyBuffer.flush();
+        try {
+            sch.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public SelectableChannel javaChanel() {

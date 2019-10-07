@@ -1,9 +1,8 @@
 package zym.netty.nio;
 
 import java.io.IOException;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
+import java.nio.channels.*;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -15,7 +14,6 @@ import java.util.Set;
 public class WorkerLoop extends Thread {
 
     private Selector selector;
-
 
 
     public WorkerLoop() throws IOException {
@@ -30,7 +28,7 @@ public class WorkerLoop extends Thread {
      */
     public boolean register(MonkeyChannel sc, int interestOps) {
         try {
-            sc.doRegister(selector, interestOps);
+            sc.doRegister(this, interestOps);
             return true;
         } catch (ClosedChannelException e) {
             e.printStackTrace();
@@ -42,23 +40,32 @@ public class WorkerLoop extends Thread {
     public void run() {
         for (; ; ) {
             try {
-                final int selectedKeysCount = selector.select();
+                final int selectedKeysCount = selector.selectNow();
                 //如果准备就绪的感兴趣事件数 小于零则继续
                 if (selectedKeysCount <= 0) {
                     continue;
                 }
                 Set<SelectionKey> prepared = selector.selectedKeys();
-                for (SelectionKey preparedKey : prepared) {
+                Iterator<SelectionKey> keyIterator = prepared.iterator();
+                while (keyIterator.hasNext()) {
+                    SelectionKey preparedKey = keyIterator.next();
+                    keyIterator.remove();
                     int readyOps = preparedKey.interestOps();
                     MonkeyChannel monkeyChannel = (MonkeyChannel) preparedKey.attachment();
-                    if ((readyOps & SelectionKey.OP_ACCEPT) == 0) {
-                        monkeyChannel.getMonkeyChannelHandler().processRead(monkeyChannel.javaChanel());
+                    if (readyOps == SelectionKey.OP_ACCEPT) {
+                        ServerSocketChannel channel = (ServerSocketChannel) preparedKey.channel();
+                        SocketChannel accept = channel.accept();
+                        accept.configureBlocking(false);
+                        monkeyChannel.getMonkeyChannelHandler().processRead(accept);
                     }
-                    if ((readyOps & SelectionKey.OP_READ) == 0) {
+                    if (readyOps == SelectionKey.OP_READ) {
                         monkeyChannel.doRead();
+                        System.out.println("threadId:" + Thread.currentThread().getId() + " read");
+
                     }
-                    if ((readyOps & SelectionKey.OP_WRITE) == 0) {
+                    if (readyOps == SelectionKey.OP_WRITE) {
                         monkeyChannel.doWrite();
+                        System.out.println("threadId:" + Thread.currentThread().getId() + " write");
                     }
                 }
             } catch (IOException e) {
@@ -67,4 +74,7 @@ public class WorkerLoop extends Thread {
         }
     }
 
+    public Selector selector() {
+        return selector;
+    }
 }

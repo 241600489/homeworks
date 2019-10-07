@@ -35,7 +35,6 @@ public class WorkerLoopGroup {
         workerLoops = new WorkerLoop[size];
         for (int i = 0; i < workerLoops.length; i++) {
             workerLoops[i] = new WorkerLoop();
-            workerLoops[i].start();
         }
     }
 
@@ -55,6 +54,9 @@ public class WorkerLoopGroup {
         if (interest == -1) {
             interest = SelectionKey.OP_READ;
         }
-        next().register(channel, interest);
+        //WorkGroup 注册完start
+        WorkerLoop nextWorkLoop = next();
+        nextWorkLoop.register(channel, interest);
+        nextWorkLoop.start();
     }
 }
