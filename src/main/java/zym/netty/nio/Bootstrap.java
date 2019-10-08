@@ -46,7 +46,7 @@ public class Bootstrap {
 
         @Override
         public void processRead(Object msg) throws IOException {
-            System.out.println("have something received");
+            System.out.println(String.format("%s have something received", Thread.currentThread().getName()));
             childGroup.register(new MonkeyChannel((SocketChannel)msg), SelectionKey.OP_READ);
         }
     }

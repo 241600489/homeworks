@@ -28,7 +28,8 @@ public class FileChannelMapStudy {
             //创建一个SocketChannel实例
             SocketChannel client = SocketChannel.open();
             //连接服务端
-            client.connect(new InetSocketAddress("localhost", 8080));
+            client.connect(new InetSocketAddress("localhost", 8081));
+            long now = System.currentTimeMillis();
             //写文件内容到服务端
             client.write(mappedByteBuffer);
             //读取文件内容 网络协议为 head + body  如6zengyi
@@ -41,7 +42,7 @@ public class FileChannelMapStudy {
             while (client.read(body) != 0) {}
             //切换读写模式
             body.flip();
-            System.out.println(String.format("发送字节成功，服务端返回：%s", new String(body.array())));
+            System.out.println(String.format("发送字节成功，服务端返回：%s,cost:%s ms", new String(body.array()), (System.currentTimeMillis() - now)));
 
         } catch (IOException e) {
             e.printStackTrace();
