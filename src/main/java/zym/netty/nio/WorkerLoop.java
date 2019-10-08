@@ -15,6 +15,7 @@ public class WorkerLoop extends Thread {
 
     private Selector selector;
 
+    private final static long EMPTY_POLL_DEFAULT = 500;
 
     public WorkerLoop() throws IOException {
         this.selector = Selector.open();
@@ -38,13 +39,25 @@ public class WorkerLoop extends Thread {
 
     @Override
     public void run() {
+        int selectCnt = 0;
         for (; ; ) {
             try {
+                if (Thread.currentThread().isInterrupted() == Boolean.TRUE) {
+                    break;
+                }
+
                 final int selectedKeysCount = selector.selectNow();
                 //如果准备就绪的感兴趣事件数 小于零则继续
                 if (selectedKeysCount <= 0) {
+                    if (++selectCnt >= 500) {
+                        sleep(100);
+                        selectCnt = 0;
+                    }
                     continue;
                 }
+                //
+                selectCnt = 0;
+
                 Set<SelectionKey> prepared = selector.selectedKeys();
                 Iterator<SelectionKey> keyIterator = prepared.iterator();
                 while (keyIterator.hasNext()) {
@@ -52,17 +65,20 @@ public class WorkerLoop extends Thread {
                     keyIterator.remove();
                     int readyOps = preparedKey.interestOps();
                     MonkeyChannel monkeyChannel = (MonkeyChannel) preparedKey.attachment();
+
                     if (readyOps == SelectionKey.OP_ACCEPT) {
                         ServerSocketChannel channel = (ServerSocketChannel) preparedKey.channel();
                         SocketChannel accept = channel.accept();
                         accept.configureBlocking(false);
                         monkeyChannel.getMonkeyChannelHandler().processRead(accept);
                     }
+
                     if (readyOps == SelectionKey.OP_READ) {
                         monkeyChannel.doRead();
                         System.out.println("threadId:" + Thread.currentThread().getId() + " read");
 
                     }
+
                     if (readyOps == SelectionKey.OP_WRITE) {
                         monkeyChannel.doWrite();
                         System.out.println("threadId:" + Thread.currentThread().getId() + " write");
@@ -70,6 +86,8 @@ public class WorkerLoop extends Thread {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }
