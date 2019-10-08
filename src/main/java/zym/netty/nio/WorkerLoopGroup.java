@@ -57,6 +57,10 @@ public class WorkerLoopGroup {
         //WorkGroup 注册完start
         WorkerLoop nextWorkLoop = next();
         nextWorkLoop.register(channel, interest);
-        nextWorkLoop.start();
+
+        //fix workLoop have not start,so start
+        if (Thread.State.NEW == nextWorkLoop.getState()) {
+            nextWorkLoop.start();
+        }
     }
 }
