@@ -54,9 +54,15 @@ public class WorkerLoopGroup {
         if (interest == -1) {
             interest = SelectionKey.OP_READ;
         }
+
         //WorkGroup 注册完start
         WorkerLoop nextWorkLoop = next();
+        nextWorkLoop.wakeup();
         nextWorkLoop.register(channel, interest);
-        nextWorkLoop.start();
+
+        //fix workLoop have not start,so start
+        if (Thread.State.NEW == nextWorkLoop.getState()) {
+            nextWorkLoop.start();
+        }
     }
 }

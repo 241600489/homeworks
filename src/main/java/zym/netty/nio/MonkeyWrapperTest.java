@@ -12,6 +12,6 @@ public class MonkeyWrapperTest {
         WorkerLoopGroup bossWorkerGroup = new WorkerLoopGroup(1);
         WorkerLoopGroup workerLoopGroup = new WorkerLoopGroup();
 
-        bootstrap.group(bossWorkerGroup, workerLoopGroup).bind("127.0.0.1", 8080);
+        bootstrap.group(bossWorkerGroup, workerLoopGroup).bind("127.0.0.1", 8081);
     }
 }

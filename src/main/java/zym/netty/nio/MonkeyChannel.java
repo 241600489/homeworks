@@ -55,9 +55,14 @@ public class MonkeyChannel {
         }
     }
 
-    public void doRegister(WorkerLoop workerLoop, int intrestOps) throws ClosedChannelException {
-        sky = sch.register(workerLoop.selector(), intrestOps, this);
-        this.workerLoop = workerLoop;
+    public void doRegister(WorkerLoop workerLoop, int intrestOps)  {
+
+        try {
+            sky = sch.register(workerLoop.selector(), intrestOps, this);
+            this.workerLoop = workerLoop;
+        } catch (ClosedChannelException e) {
+            e.printStackTrace();
+        }
     }
 
     public void doRead() {
