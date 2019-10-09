@@ -16,9 +16,9 @@ public class NioClient {
             new Thread(()->{
                 try {
                     cyclicBarrier.await();
-                    long now = System.currentTimeMillis();
-                    sendSomethingToMonkeyServer();
-                    System.out.println("");
+                    for (int j = 0; j < 10; j++) {
+                        sendSomethingToMonkeyServer();
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -34,7 +34,7 @@ public class NioClient {
         SocketChannel client = SocketChannel.open();
         client.connect(new InetSocketAddress("127.0.0.1",8081));
 
-        String data = "nihao";
+        String data = "nihaonihaonihaonihaonihaonihaonihaonihaonihaonihaonihaonihaonihaonihaonihaonihaonihaonihaonihao";
 
         int dataLength = data.getBytes().length;
         ByteBuffer dataBuffer = ByteBuffer.allocate(4 + dataLength);
@@ -56,7 +56,7 @@ public class NioClient {
         System.out.println("call traditional data transfer cost " + (System.currentTimeMillis() - now) + " ms");
         System.out.println(headInt);
         value.flip();
-        System.out.println(new String(value.array()));
+//        System.out.println(new String(value.array()));
 
         client.close();
     }
