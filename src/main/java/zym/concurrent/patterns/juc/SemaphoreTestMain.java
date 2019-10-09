@@ -18,14 +18,16 @@ public class SemaphoreTestMain {
          */
         Semaphore semaphore = new Semaphore(1);
         semaphore.acquire();
-        Thread testThread = new Thread(()->{
+        Thread testThread = new Thread(() -> {
             semaphore.acquireUninterruptibly();
             //测试线程是否是中断状态
             if (Thread.currentThread().isInterrupted()) {
                 System.out.println("pass");
-            }else {
+            } else {
                 System.out.println("get error");
             }
+            //释放信号量
+            semaphore.release();
         });
         //启动测试线程
         testThread.start();
