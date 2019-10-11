@@ -130,7 +130,7 @@ public class WorkerLoop extends Thread {
 
                     if (readyOps == SelectionKey.OP_WRITE) {
                         monkeyChannel.doWrite();
-                        System.out.println( Thread.currentThread().getName() + " write");
+                        System.out.println(Thread.currentThread().getName() + " write");
                     }
                 }
             } catch (IOException e) {
