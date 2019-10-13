@@ -1,5 +1,7 @@
 package zym.netty.nio;
 
+import org.springframework.util.Assert;
+
 import java.nio.ByteBuffer;
 
 /**
@@ -39,6 +41,13 @@ public class MonkeyBuffer {
      * @param msg
      */
     public void writeMsg(ByteBuffer msg) {
+        Assert.notNull(msg, "MonkeyBuffer.writeMsg'msg can not be null");
+        if (!msg.isDirect()) {
+            ByteBuffer direct = ByteBuffer.allocateDirect(msg.capacity());
+            msg.flip();
+            direct.put(msg);
+            msg = direct;
+        }
         if (next < logicalCaches.length) {
             logicalCaches[next++] = msg;
         } else {
