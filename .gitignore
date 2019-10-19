@@ -3,3 +3,6 @@
 *.log
 *.temp
 *.txt
+*.class
+*.classpath
+*.lst
