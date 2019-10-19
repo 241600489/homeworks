@@ -1,11 +1,11 @@
 package zym.interview.dayuwuxian;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * 题目：判断从一个字符串中是否能抓取出helloworld，可以不连续但是一定要保持顺序

@@ -1,11 +1,9 @@
 package zym.collections;
 
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CircleQueueTest {
 
@@ -23,9 +21,9 @@ public class CircleQueueTest {
 
         try {
             circleQueue.put("zengyi");
-            Assert.fail();
+            fail();
         } catch (ArrayIndexOutOfBoundsException e) {
-            Assert.assertNotNull(e);
+            assertNotNull(e);
 
         }
 
@@ -33,9 +31,9 @@ public class CircleQueueTest {
         circleQueue.take();
         try {
             circleQueue.take();
-            Assert.fail();
+            fail();
         } catch (ArrayIndexOutOfBoundsException e) {
-            Assert.assertNotNull(e);
+            assertNotNull(e);
         }
     }
 

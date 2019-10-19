@@ -1,7 +1,6 @@
 package zym.stream;
 
-import org.junit.Before;
-import org.junit.Test;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +17,8 @@ import java.util.function.IntPredicate;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.Test;
 import zym.stream.bean.CaloricLevel;
 import zym.stream.bean.Dish;
 import zym.stream.bean.Type;
@@ -126,7 +127,7 @@ public class CollectionMethod {
     List<Dish> menu;
     ValidationStrategy v;
 
-    @Before
+    @Before(value ="before" )
     public void before() {
         menu = Arrays.asList(
                 new Dish("pork", false, 800, Type.MEAT),

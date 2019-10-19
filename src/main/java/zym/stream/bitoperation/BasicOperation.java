@@ -1,7 +1,8 @@
 package zym.stream.bitoperation;
 
-import org.junit.Before;
-import org.junit.Test;
+
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.Test;
 
 /**
  * @Author unyielding
@@ -15,7 +16,7 @@ public class BasicOperation {
     int armed = 1 << 2;
     int selected = 1 << 3;
 
-    @Before
+    @Before("before")
     public void before() {
         setEnabled(false);
 

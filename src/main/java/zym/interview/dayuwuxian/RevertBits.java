@@ -1,10 +1,12 @@
 package zym.interview.dayuwuxian;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.BitSet;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * 题目：给定一个32位整数 . 输出二进制表示反转后的值.例如 input 43261596 , return 964176192

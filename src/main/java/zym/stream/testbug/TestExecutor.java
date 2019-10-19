@@ -1,7 +1,8 @@
 package zym.stream.testbug;
 
-import org.junit.Before;
-import org.junit.Test;
+
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -18,7 +19,7 @@ public class TestExecutor {
     private static final Logger log = Logger.getGlobal();
     private CountDownLatch countDownLatch;
     private ExecutorService service;
-    @Before
+    @Before("")
     public void prepareData() {
         countDownLatch = new CountDownLatch(100);
         service = Executors.newFixedThreadPool(100);

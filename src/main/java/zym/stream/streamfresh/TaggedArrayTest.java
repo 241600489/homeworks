@@ -1,6 +1,7 @@
 package zym.stream.streamfresh;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * @Author unyielding

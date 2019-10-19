@@ -13,13 +13,11 @@ import static zym.concurrent.patterns.juc.SemaphoreDemo.runSomething;
  */
 public class SemaphoreAdvancedDemo {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args)  {
         //新建一个拥有4个许可的信号量
         Semaphore semaphoreAdvance = new Semaphore(4);
 //        testSemaphore(() -> new Advance(semaphoreAdvance));
-        //等待上面执行完
-//        Thread.sleep(5000);
-//        System.out.println("+++++++++++++华丽的分割线+++++++++++++++");
+
         testSemaphore(()->new Final(semaphoreAdvance));
     }
 
@@ -66,7 +64,7 @@ public class SemaphoreAdvancedDemo {
 
     static class Final implements Runnable {
 
-         Final(Semaphore semaphoreFinal) {
+        Final(Semaphore semaphoreFinal) {
             this.semaphoreFinal = semaphoreFinal;
         }
         private Semaphore semaphoreFinal;

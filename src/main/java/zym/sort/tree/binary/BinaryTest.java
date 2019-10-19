@@ -1,6 +1,7 @@
 package zym.sort.tree.binary;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * test it

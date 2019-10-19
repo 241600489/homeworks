@@ -1,11 +1,13 @@
 package zym.interview.dayuwuxian;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * 题目：实现方法sqrt，求n的算术平方根。如sqrt(4) = 2, sqrt(10) = 3

@@ -1,6 +1,7 @@
 package zym.interview.dayuwuxian;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 public class ExceptionFinally {
     public static void main(String[] args) {
