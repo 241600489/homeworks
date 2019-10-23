@@ -27,11 +27,15 @@ public class ClhLock {
      */
     private transient volatile Node tail;
 
-    private final  static  long headOffset;
+    private final static long headOffset;
 
     private final static long tailOffset;
 
     private final static long stateOffset;
+    /**
+     * 独占锁拥有者线程
+     */
+    private Thread exclusiveOwnerThread;
 
     static {
         try {
@@ -46,13 +50,69 @@ public class ClhLock {
         }
     }
 
-    public ClhLock() { }
+    public ClhLock() {
+    }
 
     /**
      * 尝试获取锁，如果没有获取则加入等待队列
      */
     public void lock() {
+        if (!tryAcquire(1)) {
+            acquire(1);
+        }
+    }
 
+    private void acquire(int arg) {
+        Node node = addWaiter(Thread.currentThread());
+    }
+
+    private Node addWaiter(Thread currentThread) {
+        Node node = new Node(currentThread);
+        Node t = tail;
+
+        if (t != null) {
+            node.prev = t;
+            if (compareAndSetHeadOrTail(tailOffset, t, node)) {
+                t.next = node;
+                return node;
+            }
+        }
+        return enq(node);
+    }
+
+    private Node enq(Node node) {
+        for (; ; ) {
+            Node t = tail;
+            if (t == null) {
+                if (compareAndSetHeadOrTail(headOffset, null, new Node())) {
+                    tail = head;
+                }
+            } else {
+                node.prev = t;
+                if (compareAndSetHeadOrTail(tailOffset, t, node)) {
+                    t.next = node;
+                    return node;
+                }
+            }
+        }
+    }
+
+    protected boolean tryAcquire(int arg) {
+        assert arg == 1;
+        int tempState = getState();
+        if (compareAndSetState(tempState, arg)) {
+            setExclusiveOwnerThread(Thread.currentThread());
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean compareAndSetState(int oldValue, int expectValue) {
+        return unsafe.compareAndSwapInt(this, stateOffset, oldValue, expectValue);
+    }
+
+    private boolean compareAndSetHeadOrTail(long offset, Node oldValue, Node expectValue) {
+        return unsafe.compareAndSwapObject(this, offset, oldValue, expectValue);
     }
 
     /**
@@ -65,7 +125,7 @@ public class ClhLock {
     /**
      * 队列的一个元素
      */
-    class Node{
+    class Node {
         /**
          * 包含哪个线程，创建时实例化
          */
@@ -75,6 +135,10 @@ public class ClhLock {
          * 前驱
          */
         private Node prev;
+        /**
+         * 后继
+         */
+        private Node next;
 
         public Node(Thread thread) {
             this.thread = thread;
@@ -91,5 +155,24 @@ public class ClhLock {
         public void setPrev(Node prev) {
             this.prev = prev;
         }
+
+        public Node() {
+        }
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public Node getHead() {
+        return head;
+    }
+
+    public Node getTail() {
+        return tail;
+    }
+
+    public void setExclusiveOwnerThread(Thread exclusiveOwnerThread) {
+        this.exclusiveOwnerThread = exclusiveOwnerThread;
     }
 }
