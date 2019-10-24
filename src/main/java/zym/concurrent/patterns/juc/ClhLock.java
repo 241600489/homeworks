@@ -43,9 +43,9 @@ public class ClhLock {
             if (Objects.isNull(unsafe)) {
                 throw new IllegalStateException("Unsafe instance has not initialized");
             }
-            headOffset = unsafe.objectFieldOffset(ClhLock.class.getDeclaredField("headOffset"));
-            tailOffset = unsafe.objectFieldOffset(ClhLock.class.getDeclaredField("tailOffset"));
-            stateOffset = unsafe.objectFieldOffset(ClhLock.class.getDeclaredField("stateOffset"));
+            headOffset = unsafe.objectFieldOffset(ClhLock.class.getDeclaredField("head"));
+            tailOffset = unsafe.objectFieldOffset(ClhLock.class.getDeclaredField("tail"));
+            stateOffset = unsafe.objectFieldOffset(ClhLock.class.getDeclaredField("state"));
         } catch (NoSuchFieldException e) {
             throw new Error(e);
         }
@@ -117,7 +117,7 @@ public class ClhLock {
     protected boolean tryAcquire(int arg) {
         assert arg == 1;
         int tempState = getState();
-        if (compareAndSetState(tempState, arg)) {
+        if (tempState == 0 && compareAndSetState(tempState, arg)) {
             setExclusiveOwnerThread(Thread.currentThread());
             return true;
         }
@@ -136,7 +136,40 @@ public class ClhLock {
      * 释放锁
      */
     public void unLock() {
+        release();
+    }
 
+    protected void release() {
+        if (tryRelease(1)) {
+            Node h = head;
+            if (h != null) {
+                unParkSuccessor();
+            }
+        }
+    }
+
+    private void unParkSuccessor() {
+        Node n = head.next;
+        if (n == null) {
+            for (Node prev = tail.prev; prev != null; prev = prev.prev) {
+                if (prev != head) {
+                    n = prev;
+                }
+            }
+        }
+        if (Objects.nonNull(n)) {
+            LockSupport.unpark(n.thread);
+        }
+    }
+
+    private boolean tryRelease(int arg) {
+        assert arg == 1;
+        int tempState = getState();
+        if (tempState == 1 && compareAndSetState(tempState, 0)) {
+            setExclusiveOwnerThread(null);
+            return true;
+        }
+        return false;
     }
 
     /**
