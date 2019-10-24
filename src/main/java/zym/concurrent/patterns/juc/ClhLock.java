@@ -3,6 +3,7 @@ package zym.concurrent.patterns.juc;
 import sun.misc.Unsafe;
 
 import java.util.Objects;
+import java.util.concurrent.locks.LockSupport;
 
 /**
  * CLH锁：一个种自旋锁，通过先进先出确保无饥饿的和公平的锁
@@ -64,6 +65,22 @@ public class ClhLock {
 
     private void acquire(int arg) {
         Node node = addWaiter(Thread.currentThread());
+        for (; ; ) {
+            Node h = head;
+            if (node.prev == h && tryAcquire(arg)) {
+                setHead(node);
+                return;
+            }
+            LockSupport.park(node.thread);
+        }
+    }
+
+    private void setHead(Node node) {
+        Node h = head;
+        if (compareAndSetHeadOrTail(headOffset, h, node)) {
+            node.prev = null;
+            node.thread = null;
+        }
     }
 
     private Node addWaiter(Thread currentThread) {
