@@ -23,20 +23,26 @@ public class ClhLock {
     private transient volatile Node head;
 
     /**
+     * 独占锁拥有者线程
+     */
+    private Thread exclusiveOwnerThread;
+
+    /**
      * 尾部节点
      * 开始为空
      */
     private transient volatile Node tail;
 
+    /**
+     * 为了CAS 操作而设置的变量.
+     * 用下面这几个参数获取对应实体上对应字段的地址，充当CAS 第一个参数
+     */
     private final static long headOffset;
 
     private final static long tailOffset;
 
     private final static long stateOffset;
-    /**
-     * 独占锁拥有者线程
-     */
-    private Thread exclusiveOwnerThread;
+
 
     static {
         try {
@@ -58,9 +64,9 @@ public class ClhLock {
      * 尝试获取锁，如果没有获取则加入等待队列
      */
     public void lock() {
-        if (!tryAcquire(1)) {
+//        if (!tryAcquire(1)) {
             acquire(1);
-        }
+//        }
     }
 
     private void acquire(int arg) {
@@ -68,6 +74,7 @@ public class ClhLock {
         for (; ; ) {
             Node h = head;
             if (node.prev == h && tryAcquire(arg)) {
+                System.out.println("acquire lock thread:" + Thread.currentThread().getName());
                 setHead(node);
                 return;
             }
@@ -83,30 +90,44 @@ public class ClhLock {
         }
     }
 
+    /**
+     * 将线程入队
+     * @param currentThread 将要入队的线程
+     * @return
+     */
     private Node addWaiter(Thread currentThread) {
+        //新建一个节点代表当前线程
         Node node = new Node(currentThread);
         Node t = tail;
-
+        //判断尾部节点是否为空,开始时尾部节点为空
         if (t != null) {
+            //尾部节点不为空则将尾部节点赋给当前节点的前驱
             node.prev = t;
+            //将自己设置为尾部节点,可能不成功，会被其它线程先一步设置，若设置不了则会进入下面的enq
             if (compareAndSetHeadOrTail(tailOffset, t, node)) {
                 t.next = node;
                 return node;
             }
         }
+        //若尾部节点为空（第一个线程进来），或者将当前节点设置为尾部节点失败
         return enq(node);
     }
 
     private Node enq(Node node) {
+        //轮询
         for (; ; ) {
             Node t = tail;
+            //若尾部节点为空，则设置下头节点和为节点
             if (t == null) {
                 if (compareAndSetHeadOrTail(headOffset, null, new Node())) {
                     tail = head;
                 }
             } else {
+                //尾部节点不为空则将尾部节点赋给当前节点的前驱
                 node.prev = t;
+                //将自己设置为尾部节点,可能不成功，会被其它线程先一步设置，若设置不了则会进入下面的
                 if (compareAndSetHeadOrTail(tailOffset, t, node)) {
+                    //将当前节点即尾部节点设置为上一个尾部节点的后继
                     t.next = node;
                     return node;
                 }
@@ -140,16 +161,20 @@ public class ClhLock {
     }
 
     protected void release() {
+        //尝试释放锁
         if (tryRelease(1)) {
             Node h = head;
             if (h != null) {
+                //解除后继的阻塞状态
                 unParkSuccessor();
             }
         }
     }
 
     private void unParkSuccessor() {
+        //解除head 后继的阻塞状态
         Node n = head.next;
+        //下面逻辑暂时不管，不会出现这种情况
         if (n == null) {
             for (Node prev = tail.prev; prev != null; prev = prev.prev) {
                 if (prev != head) {
@@ -157,6 +182,7 @@ public class ClhLock {
                 }
             }
         }
+
         if (Objects.nonNull(n)) {
             LockSupport.unpark(n.thread);
         }
