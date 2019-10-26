@@ -1,6 +1,7 @@
 package zym.concurrent.patterns.juc;
 
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CountDownLatch;
@@ -12,7 +13,8 @@ public class ClhLockTest {
         i++;
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    @Test
+    public void  testLock() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(100);
         ClhLock clhLock = new ClhLock();
         for (int i = 0; i < 100; i++) {
@@ -25,7 +27,7 @@ public class ClhLockTest {
         }
 
         countDownLatch.await();
-        System.out.println(i);
+       Assertions.assertEquals(101,i);
 
     }
 
