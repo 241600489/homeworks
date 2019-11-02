@@ -85,7 +85,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.39.Final</version>
+            <version>4.1.42.Final</version>
         </dependency>
         <!-- log4j2的包：建议2.6以上 开始-->
         <dependency>
