@@ -31,27 +31,12 @@ public class BeanHelper {
 
         Collection<PropertyDec> targetPropertyDecs = PropertiesCache.getPropertyDecs(target);
         targetPropertyDecs.forEach(propertyDec -> {
-            propertyDec.setGetter();
+            BiConsumer setter = propertyDec.getSetter();
+            PropertyDec sourcePropertyDec = PropertiesCache.getPropertyDecs(source.getClass(), propertyDec.getField().getName());
+            if (Objects.nonNull(sourcePropertyDec)) {
+                setter.accept(target, sourcePropertyDec.getGetter().apply(source));
+            }
         });
-
-//        Field[] declaredFields = target.getClass().getDeclaredFields();
-//        for (Field declaredField : declaredFields) {
-//            //过滤 final /static  修饰的字段
-//            if (!isNeedCopy(declaredField)) {
-//                continue;
-//            }
-//            declaredField.setAccessible(true);
-//            //获取 target 中字段的set 方法
-//            Optional<BiConsumer> biConsumerOptional = fetchSetter(target, declaredField);
-//            biConsumerOptional.ifPresent(biConsumer -> {
-//                //获取source 中 的get 方法
-//                Optional<Function> getterOptional = fetchGetter(source, declaredField);
-//                if (getterOptional.isPresent()) {
-//                    biConsumer.accept(target, getterOptional.get().apply(source));
-//                }
-//            });
-//        }
-
         return target;
     }
 
